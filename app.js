@@ -6,11 +6,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
+require('dotenv').config();
+
 
 const app = express();
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const apiKey = process.env.MAILCHIMP_API_KEY;
+const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
+
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/signup.html");
@@ -43,7 +49,7 @@ const data =  {
   // options for my http post request 
   const options = {
     method: "POST",
-    auth: "shani:f2da992f94f4a864713b69f0928132e0-us21"
+    auth: `shani:${process.env.MAILCHIMP_API_KEY}`
   };
 
   // Post Request to mailchimp server (url, options above, callback function from mailchimp server)
@@ -84,10 +90,3 @@ app.listen(3000, function() {
   console.log("Server is running on port 3000");
 });
 
-
-
-//mailchinpAPI key
-//f2da992f94f4a864713b69f0928132e0-us21
-
-//List Id - Unique Audience ID for: shani -
-//9df456b62d
